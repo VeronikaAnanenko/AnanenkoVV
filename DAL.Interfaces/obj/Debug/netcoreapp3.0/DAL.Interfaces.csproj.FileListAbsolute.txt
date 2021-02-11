@@ -1,0 +1,10 @@
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\bin\Debug\netcoreapp3.0\DAL.Interfaces.deps.json
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\bin\Debug\netcoreapp3.0\DAL.Interfaces.dll
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\obj\Debug\netcoreapp3.0\DAL.Interfaces.csprojAssemblyReference.cache
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\obj\Debug\netcoreapp3.0\DAL.Interfaces.AssemblyInfoInputs.cache
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\obj\Debug\netcoreapp3.0\DAL.Interfaces.AssemblyInfo.cs
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\bin\Debug\netcoreapp3.0\DAL.Interfaces.runtimeconfig.json
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\bin\Debug\netcoreapp3.0\DAL.Interfaces.runtimeconfig.dev.json
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\bin\Debug\netcoreapp3.0\DAL.Interfaces.pdb
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\obj\Debug\netcoreapp3.0\DAL.Interfaces.dll
+E:\Work\SITAIRIS_Kursovoy\DAL.Interfaces\obj\Debug\netcoreapp3.0\DAL.Interfaces.pdb

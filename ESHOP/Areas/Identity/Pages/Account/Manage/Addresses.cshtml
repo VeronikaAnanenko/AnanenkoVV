@@ -1,0 +1,234 @@
+﻿@page
+@model BSUIR.Web.Areas.Identity.Pages.Account.Manage.AddressesModel
+@{
+    int chosenId = 5;
+}
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="page-content page-cabinet-personal">
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post" asp-page-handler="Async">
+                <div class="modal-content">
+                    <div class="white-popup " id="popup" style="max-width: 590px">
+                        <div class="content">
+                            <div class="cabinet-popup cabinet-popup-delivery">
+                                <div class="row clearfix">
+                                    <div class="small-12 columns">
+                                        <h2>Введите адрес</h2>
+                                        <div class="cabinet-popup-address">
+                                            <div class="row clearfix">
+                                                <div class="form-row">
+                                                    <label class="form-label">Страна <sup>*</sup></label>
+                                                    <input asp-for="Input.Country" data-placeholder="Страна" class="form-input" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="form-row">
+                                                    <label class="form-label" for="select-area">Область <sup>*</sup></label>
+                                                    <input asp-for="Input.Area" class="form-input" type="text" data-placeholder="Область">
+                                                </div>
+
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="form-row">
+                                                    <label class="form-label" for="select-city">Населённый пункт <sup>*</sup></label>
+                                                    <input asp-for="Input.City" class="form-input" type="text" data-placeholder="Населенный пункт">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cabinet-popup-address">
+                                            <div class="form-row">
+                                                <label class="form-label" for="street">Улица <sup>*</sup></label>
+                                                <input id="street" asp-for="Input.Street" class="form-input cabinet-street-autocomplete js-auto-street" type="text" maxlength="200" value="" autocomplete="off">
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="small-12 medium-5 columns f-small">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="building">Дом <sup>*</sup></label>
+                                                        <input asp-for="Input.Building" id="building" class="form-input" type="text" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="small-12 medium-5 columns f-small">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="corp">Индекс</label>
+                                                        <input asp-for="Input.Postal" id="corp" class="form-input" type="text" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="small-12 medium-5 columns f-small">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="apartment">Квартира</label>
+                                                        <input asp-for="Input.Flat" id="apartment" class="form-input" type="text" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="text-center offset-bottom-30">
+                        <input type="submit" class="btn-danger btn" value="Добавить" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button type="button" class="mfp-close"></button>
+    </div>
+    <div class="modal fade" id="editAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post" asp-page-handler="Update">
+
+                <div class="modal-content">
+                    <div class="white-popup " id="popup" style="max-width: 590px">
+                        <div class="content">
+                            <div class="cabinet-popup cabinet-popup-delivery">
+                                <div class="row clearfix">
+                                    <div class="small-12 columns">
+                                        <h2>Введите адрес</h2>
+                                        <input type="hidden" asp-for="Input.Id" id="addressId" value="0" />
+                                        <div class="cabinet-popup-address">
+                                            <div class="row clearfix">
+                                                <div class="form-row">
+                                                    <label class="form-label">Страна <sup>*</sup></label>
+                                                    <input asp-for="Input.Country" id="addressCountry" data-placeholder="Страна" class="form-input" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="form-row">
+                                                    <label class="form-label" for="select-area">Область <sup>*</sup></label>
+                                                    <input asp-for="Input.Area" id="addressArea" class="form-input" type="text" data-placeholder="Область">
+                                                </div>
+
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="form-row">
+                                                    <label class="form-label" for="select-city">Населённый пункт <sup>*</sup></label>
+                                                    <input asp-for="Input.City" id="addressCity" class="form-input" type="text" data-placeholder="Населенный пункт">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cabinet-popup-address">
+                                            <div class="form-row">
+                                                <label class="form-label" for="street">Улица <sup>*</sup></label>
+                                                <input asp-for="Input.Street" id="addressStreet" class="form-input cabinet-street-autocomplete js-auto-street" type="text" maxlength="200" value="" autocomplete="off">
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="small-12 medium-5 columns f-small">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="building">Дом <sup>*</sup></label>
+                                                        <input asp-for="Input.Building" id="addressBuilding" class="form-input" type="text" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="small-12 medium-5 columns f-small">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="corp">Индекс</label>
+                                                        <input asp-for="Input.Postal" id="addressPost" class="form-input" type="text" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="small-12 medium-5 columns f-small">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="apartment">Квартира</label>
+                                                        <input asp-for="Input.Flat" id="addressFlat" class="form-input" type="text" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="text-center offset-bottom-30">
+                        <input class="btn-danger btn" type="submit" value="Изменить"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button type="button" class="mfp-close"></button>
+    </div>
+    <div class="container clearfix">
+        <div class="page-title">
+            <h1 class="h1">Адреса доставки</h1>
+        </div>
+        <div class="content-row">
+            <div class="sidebar">
+
+                <ul class="cabinet-nav">
+                    <li data-code="personal" class=""><a href="/Identity/Account/Manage/Index">Личные данные</a></li>
+                    <li data-code="orders" class=""><a href="/Identity/Account/Manage/Orders">Мои заказы</a></li>
+                    <li data-code="delivery" class="active"><a href="/Identity/Account/Manage/Addresses">Адрес доставки</a></li>
+                    <li data-code="logout" class=""><a href="/Identity/Account/Logout">Выход</a></li>
+
+
+                </ul>
+            </div>
+            <div style="margin-left: 300px">
+
+
+                <div class="row offset-bottom-20">
+                    <div class="small-12 columns">
+                        <div class="panel-simple offset-bottom-20 page-cabinet-delivery">
+                            <div class="panel-mini-title">
+                                Мои адреса
+                            </div>
+
+                            <div class="scroll-area">
+                                <table class="cabinet-delivery-list">
+                                    @foreach (BSUIR.BL.Interfaces.Models.Addresses.Address address in (List<BSUIR.BL.Interfaces.Models.Addresses.Address>)ViewData["Addresses"])
+                                    {
+                                        <tr class="js-address">
+                                            <td>@address.City,@address.Street улица, д @address.House, кв. @address.Flat</td>
+                                            <td>
+                                                
+                                            </td>
+                                            <td>
+                                                <button onclick="change('@address.Id','@address.Country','@address.Region','@address.House','@address.City','@address.PostIndex','@address.Street','@address.Flat')" class="btn-danger btn" data-toggle="modal" data-target="#editAddress">Изменить</button>
+                                            </td>
+                                            <td>
+                                                <form asp-page-handler="Delete" asp-route-id="@address.Id">
+                                                    <input class="btn-danger btn" type="submit" value="Удалить" />
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+
+                            <div class="panel-simple-bottom">
+                                <button class="btn-danger btn" data-toggle="modal" data-target="#exampleModalLong">Добавить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function change(id, country, area, building, city, post, street, flat) {
+            document.getElementById("addressId").value = id;
+            document.getElementById("addressCountry").value = country;
+            document.getElementById("addressArea").value = area;
+            document.getElementById("addressBuilding").value = building;
+            document.getElementById("addressCity").value = city;
+            document.getElementById("addressPost").value = post;
+            document.getElementById("addressStreet").value = street;
+            document.getElementById("addressFlat").value = flat;
+        }
+    </script>
+}

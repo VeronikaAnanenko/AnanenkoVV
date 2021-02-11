@@ -1,0 +1,8 @@
+E:\Work\SITAIRIS_Kursovoy\BL.ServicesConfiguration\bin\Debug\netcoreapp3.0\BL.ServicesConfiguration.deps.json
+E:\Work\SITAIRIS_Kursovoy\BL.ServicesConfiguration\bin\Debug\netcoreapp3.0\BL.ServicesConfiguration.dll
+E:\Work\SITAIRIS_Kursovoy\BL.ServicesConfiguration\bin\Debug\netcoreapp3.0\BL.ServicesConfiguration.pdb
+E:\Work\SITAIRIS_Kursovoy\BL.ServicesConfiguration\obj\Debug\netcoreapp3.0\BL.ServicesConfiguration.csprojAssemblyReference.cache
+E:\Work\SITAIRIS_Kursovoy\BL.ServicesConfiguration\obj\Debug\netcoreapp3.0\BL.ServicesConfiguration.AssemblyInfoInputs.cache
+E:\Work\SITAIRIS_Kursovoy\BL.ServicesConfiguration\obj\Debug\netcoreapp3.0\BL.ServicesConfiguration.AssemblyInfo.cs
+E:\Work\SITAIRIS_Kursovoy\BL.ServicesConfiguration\obj\Debug\netcoreapp3.0\BL.ServicesConfiguration.dll
+E:\Work\SITAIRIS_Kursovoy\BL.ServicesConfiguration\obj\Debug\netcoreapp3.0\BL.ServicesConfiguration.pdb

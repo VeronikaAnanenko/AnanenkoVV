@@ -1,0 +1,315 @@
+﻿@using BSUIR.BL.Interfaces.Models
+@using BSUIR.BL.Interfaces.Models.DeliveryAddresses
+@inject Basket _Basket;
+@{
+    ViewData["Title"] = "Address";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div data-step="1." class="shopping-cart__step-title">&nbsp;Выберите способ доставки</div>
+<div>
+    <div class="card-block card-delivery">
+        <div class="card-delivery-head clearfix">
+            <div style="float: right" class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-dark active" onclick="
+document.getElementById('selfInShopList').style.display = 'block';
+console.log('list');
+document.getElementById('map_canvas').style.display = 'none';
+document.getElementById('delivery').style.display = 'none';
+" id="option1">
+                    <input type="radio" name="options" value="М" autocomplete="off" checked="">Списком
+                </label>
+                <label onclick="
+document.getElementById('selfInShopList').style.display = 'none';
+console.log('map');
+document.getElementById('map_canvas').style.display = 'block';
+document.getElementById('delivery').style.display = 'none';
+" class="btn btn-danger" id="option2">
+                    <input type="radio" name="options" value="Ж" autocomplete="off">На карте
+                </label>
+            </div><div>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label ONCLICK="
+document.getElementById('delivery').style.display = 'none';
+document.getElementById('option1').style.display = 'block';
+document.getElementById('option2').style.display = 'block';
+console.log('magazin');
+
+if (document.getElementById('option1').classList.contains('active'))
+    document.getElementById('selfInShopList').style.display = 'block';
+else
+{
+    document.getElementById('map_canvas').style.display = 'block';
+}" class="btn btn-danger active" id="option3">
+                        <input type="radio" name="options" value="М" autocomplete="off" checked="">Забрать в магазине
+                    </label>
+                    <label class="btn btn-dark" onclick="
+document.getElementById('map_canvas').style.display = 'none';
+document.getElementById('selfInShopList').style.display = 'none';
+document.getElementById('delivery').style.display = 'block';
+console.log('dostavka');
+document.getElementById('option1').style.display='none'
+document.getElementById('option2').style.display='none'" id="option4">
+                        <input type="radio"
+                               name="options" value="Ж" autocomplete="off"> Доставка на дом
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="card-delivery-content clearfix" id="selfInShopList">
+            <div>
+
+                <div id="delivery-shop" class="card-delivery-shop">
+                    <div id="delivery-shop-list" class="card-delivery-shop-list">
+                        <table class="cleaned shops-list">
+                            <tbody>
+                                <tr>
+                                    <th width="70%">Адрес магазина</th>
+                                    <th width="30%" class="text-left">Режим работы магазина</th>
+                                    <th></th>
+                                </tr>
+                                @foreach (DeliveryAddress address in (IEnumerable<DeliveryAddress>)ViewData["DeliveryAddresses"])
+                                {
+                                    <tr>
+                                        <td><a target="_blank">@address.City, @address.Street, @address.House</a></td>
+                                        <td class="text-left">@address.WorkingHours</td>
+                                        @if (!_Basket.IsDelivery && _Basket.AddressId == address.Id)
+                                        {
+                                            <td>
+                                                <button class="btn btn-secondary">
+                                                    Выбрано
+                                                </button>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <form asp-action="ChooseAddress" asp-controller="Basket" asp-route-id="@address.Id" asp-route-isdelivery="@false">
+                                                    <input type="submit" class="btn btn-danger" value="Выбрать" />
+                                                </form>
+                                            </td>
+                                        }
+                                        <!---->
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div> <!---->
+                </div> <!---->
+            </div> <!---->
+        </div>
+        <div style="display: none;height:400px;" id="map_canvas">
+        </div>
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form method="post" asp-action="AddAddress" asp-controller="Basket">
+                    <div class="modal-content">
+                        <div class="white-popup " id="popup" style="max-width: 590px">
+                            <div class="content">
+                                <div class="cabinet-popup cabinet-popup-delivery">
+                                    <div class="row clearfix">
+                                        <div class="small-12 columns">
+                                            <h2>Введите адрес</h2>
+                                            <div class="cabinet-popup-address">
+                                                <div class="row clearfix">
+                                                    <div class="form-row">
+                                                        <label class="form-label">Страна <sup>*</sup></label>
+                                                        <input name="Country" data-placeholder="Страна" class="form-input" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="select-area">Область <sup>*</sup></label>
+                                                        <input name="Area" class="form-input" type="text" data-placeholder="Область">
+                                                    </div>
+
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="select-city">Населённый пункт <sup>*</sup></label>
+                                                        <input name="City" class="form-input" type="text" data-placeholder="Населенный пункт">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cabinet-popup-address">
+                                                <div class="form-row">
+                                                    <label class="form-label" for="street">Улица <sup>*</sup></label>
+                                                    <input id="street" name="Street" class="form-input cabinet-street-autocomplete js-auto-street" type="text" maxlength="200" value="" autocomplete="off">
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="small-12 medium-5 columns f-small">
+                                                        <div class="form-row">
+                                                            <label class="form-label" for="building">Дом <sup>*</sup></label>
+                                                            <input name="Building" id="building" class="form-input" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="small-12 medium-5 columns f-small">
+                                                        <div class="form-row">
+                                                            <label class="form-label" for="corp">Индекс</label>
+                                                            <input name="Postal" id="corp" class="form-input" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="small-12 medium-5 columns f-small">
+                                                        <div class="form-row">
+                                                            <label class="form-label" for="apartment">Квартира</label>
+                                                            <input name="Flat" id="apartment" class="form-input" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="text-center offset-bottom-30">
+                            <input type="submit" class="btn-danger btn" value="Добавить" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button type="button" class="mfp-close"></button>
+        </div>
+        <div class="modal fade" id="editAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form method="post" asp-action="UpdateAddress" asp-controller="Basket">
+
+                    <div class="modal-content">
+                        <div class="white-popup " id="popup" style="max-width: 590px">
+                            <div class="content">
+                                <div class="cabinet-popup cabinet-popup-delivery">
+                                    <div class="row clearfix">
+                                        <div class="small-12 columns">
+                                            <h2>Введите адрес</h2>
+                                            <input type="hidden" name="Id" id="addressId" value="0" />
+                                            <div class="cabinet-popup-address">
+                                                <div class="row clearfix">
+                                                    <div class="form-row">
+                                                        <label class="form-label">Страна <sup>*</sup></label>
+                                                        <input name="Country" id="addressCountry" data-placeholder="Страна" class="form-input" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="select-area">Область <sup>*</sup></label>
+                                                        <input name="Area" id="addressArea" class="form-input" type="text" data-placeholder="Область">
+                                                    </div>
+
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="form-row">
+                                                        <label class="form-label" for="select-city">Населённый пункт <sup>*</sup></label>
+                                                        <input name="City" id="addressCity" class="form-input" type="text" data-placeholder="Населенный пункт">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cabinet-popup-address">
+                                                <div class="form-row">
+                                                    <label class="form-label" for="street">Улица <sup>*</sup></label>
+                                                    <input name="Street" id="addressStreet" class="form-input cabinet-street-autocomplete js-auto-street" type="text" maxlength="200" value="" autocomplete="off">
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="small-12 medium-5 columns f-small">
+                                                        <div class="form-row">
+                                                            <label class="form-label" for="building">Дом <sup>*</sup></label>
+                                                            <input name="Building" id="addressBuilding" class="form-input" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="small-12 medium-5 columns f-small">
+                                                        <div class="form-row">
+                                                            <label class="form-label" for="corp">Индекс</label>
+                                                            <input name="Postal" id="addressPost" class="form-input" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <div class="small-12 medium-5 columns f-small">
+                                                        <div class="form-row">
+                                                            <label class="form-label" for="apartment">Квартира</label>
+                                                            <input name="Flat" id="addressFlat" class="form-input" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center offset-bottom-30">
+                            <input class="btn-danger btn" type="submit" value="Изменить" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button type="button" class="mfp-close"></button>
+        </div>
+        <div id="delivery" style="display: none;" class="row offset-bottom-20">
+            <div class="small-12 columns">
+                <div class="panel-simple offset-bottom-20 page-cabinet-delivery">
+                    <div class="panel-mini-title">
+                        Мои адреса
+                    </div>
+
+                    <div class="scroll-area">
+                        <table class="cabinet-delivery-list">
+                            @foreach (BSUIR.BL.Interfaces.Models.Addresses.Address address in (List<BSUIR.BL.Interfaces.Models.Addresses.Address>)ViewData["Addresses"])
+                            {
+                                <tr class="js-address">
+                                    <td>@address.City,@address.Street улица, д @address.House, кв. @address.Flat</td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <button onclick="change('@address.Id','@address.Country','@address.Region','@address.House','@address.City','@address.PostIndex','@address.Street','@address.Flat')" class="btn-danger btn" data-toggle="modal" data-target="#editAddress">Изменить</button>
+                                    </td>
+                                    <td>
+                                        @if (_Basket.IsDelivery && _Basket.AddressId == address.Id)
+                                        {
+                                            <button class="btn btn-secondary">
+                                                Выбрано
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <form asp-action="ChooseAddress" asp-controller="Basket" asp-route-isdelivery="@true" asp-route-id="@address.Id">
+                                                <input class="btn-danger btn" type="submit" value="Выбрать" />
+                                            </form>
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+
+                    <div class="panel-simple-bottom">
+                        <button class="btn-danger btn" data-toggle="modal" data-target="#exampleModalLong">Добавить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="float: right">
+            <!---->
+            <button onclick="window.location.href='@Url.Action("Confirm", "Basket")'" class="btn-danger btn"> Оформить заказ</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function change(id, country, area, building, city, post, street, flat) {
+        document.getElementById("addressId").value = id;
+        document.getElementById("addressCountry").value = country;
+        document.getElementById("addressArea").value = area;
+        document.getElementById("addressBuilding").value = building;
+        document.getElementById("addressCity").value = city;
+        document.getElementById("addressPost").value = post;
+        document.getElementById("addressStreet").value = street;
+        document.getElementById("addressFlat").value = flat;
+    }
+</script>

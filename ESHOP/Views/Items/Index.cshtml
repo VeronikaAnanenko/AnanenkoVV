@@ -1,0 +1,515 @@
+﻿@using BSUIR.BL.Interfaces.Models.Items
+@model IEnumerable<BSUIR.BL.Interfaces.Models.Items.Item>
+@using Microsoft.AspNetCore.Identity
+@using BSUIR.DAL.Interfaces.Models
+
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-row clearfix product-container">
+    <div id="smartFilter" class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="sidebar-filter">
+                <div class="sidebar-filter-title">
+                    <span class="sidebar-filter-title-text">Фильтр</span>
+                </div>
+                <div class="sidebar-filter-body">
+                    <ul class="sidebar-filter-body-cat">
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Тип</span>
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="filter-content filter-checkbox" data-type="checkbox">
+                                <ul class="sidebar-filter-body-cat-item-subcat scroll-pane-offset-none ">
+                                    @foreach (string type in (IEnumerable<string>)ViewData["Types"])
+                                    {
+                                        <li>
+                                            <div class="filter-div">
+                                                <input type="checkbox" onclick="typeAdded('@type')" id="@type" class="checkbox-filter">
+                                                <div class="checkbox checkbox-small">
+                                                    <label class="checkbox-label">
+                                                        @type
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Производитель</span>
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="filter-content filter-checkbox" data-type="checkbox">
+                                <ul class="sidebar-filter-body-cat-item-subcat scroll-pane-offset-none ">
+                                    @foreach (string producer in (IEnumerable<string>)ViewData["Producers"])
+                                    {
+                                        <li>
+                                            <div class="filter-div">
+                                                <input type="checkbox" onclick="producerAdded('@producer')" id="@producer" class="checkbox-filter">
+                                                <div class="checkbox checkbox-small">
+                                                    <label class="checkbox-label">
+                                                        @producer
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Страна производства</span>
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="filter-content filter-checkbox" data-type="checkbox">
+                                <ul class="sidebar-filter-body-cat-item-subcat scroll-pane-offset-none ">
+                                    @foreach (string country in (IEnumerable<string>)ViewData["Countries"])
+                                    {
+                                        <li>
+                                            <div class="filter-div">
+                                                <input type="checkbox" onclick="countryAdded('@country')" id="@country"class="checkbox-filter">
+                                                <div class="checkbox checkbox-small">
+                                                    <label class="checkbox-label">
+                                                        @country
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Цвет</span>
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="filter-content filter-checkbox" data-type="checkbox">
+                                <ul class="sidebar-filter-body-cat-item-subcat scroll-pane-offset-none ">
+                                    @foreach (string color in (IEnumerable<string>)ViewData["Colors"])
+                                    {
+                                        <li>
+                                            <div class="filter-div">
+                                                <input type="checkbox" onclick="colorAdded('@color')" id="@color" class="checkbox-filter">
+                                                <div class="checkbox checkbox-small">
+                                                    <label class="checkbox-label">
+                                                        @color
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Материал</span>
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="filter-content filter-checkbox" data-type="checkbox">
+                                <ul class="sidebar-filter-body-cat-item-subcat scroll-pane-offset-none ">
+                                    @foreach (string material in (IEnumerable<string>)ViewData["Materials"])
+                                    {
+                                        <li>
+                                            <div class="filter-div">
+                                                <input type="checkbox" onclick="materialAdded('@material')" id="@material" class="checkbox-filter">
+                                                <div class="checkbox checkbox-small">
+                                                    <label class="checkbox-label">
+                                                        @material
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Ширина (см)</span>
+                                </div>
+                            </div>
+                            <div class="filter-content filter-slider" data-type="slider">
+                                <ul class="sidebar-filter-body-cat-item-subcat filter-slide-content">
+                                    <li class="sidebar-filter-body-cat-item-subcat-item">
+                                        <div class="sidebar-filter-body-cat-item-subcat-item-name prevent-hover">
+                                            <div class="metric-range">
+                                                <div class="metric-range-inputs">
+                                                    <input id="width-lower" type="number" class="input-text-pract input-range-price input-range-price-left" placeholder="От">
+                                                    <div class="divider">-</div>
+                                                    <input id="width-higher" type="number" class="input-text-pract input-range-price input-range-price-right" placeholder="До">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Высота (см)</span>
+                                </div>
+                            </div>
+                            <div class="filter-content filter-slider" data-type="slider">
+                                <ul class="sidebar-filter-body-cat-item-subcat filter-slide-content">
+                                    <li class="sidebar-filter-body-cat-item-subcat-item">
+                                        <div class="sidebar-filter-body-cat-item-subcat-item-name prevent-hover">
+                                            <div class="metric-range">
+                                                <div class="metric-range-inputs">
+                                                    <input id="height-lower" type="number" class="input-text-pract input-range-price input-range-price-left" placeholder="От">
+                                                    <div class="divider">-</div>
+                                                    <input id="height-higher" type="number" class="input-text-pract input-range-price input-range-price-right" placeholder="До">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Длина (см)</span>
+                                </div>
+                            </div>
+                            <div class="filter-content filter-slider" data-type="slider">
+                                <ul class="sidebar-filter-body-cat-item-subcat filter-slide-content">
+                                    <li class="sidebar-filter-body-cat-item-subcat-item">
+                                        <div class="sidebar-filter-body-cat-item-subcat-item-name prevent-hover">
+                                            <div class="metric-range">
+                                                <div class="metric-range-inputs">
+                                                    <input id="length-lower" type="number" class="input-text-pract input-range-price input-range-price-left" placeholder="От">
+                                                    <div class="divider">-</div>
+                                                    <input id="length-higher" type="number" class="input-text-pract input-range-price input-range-price-right" placeholder="До">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Цена</span>
+                                </div>
+                            </div>
+                            <div class="filter-content filter-slider" data-type="slider">
+                                <ul class="sidebar-filter-body-cat-item-subcat filter-slide-content">
+                                    <li class="sidebar-filter-body-cat-item-subcat-item">
+                                        <div class="sidebar-filter-body-cat-item-subcat-item-name prevent-hover">
+                                            <div class="metric-range">
+                                                <div class="metric-range-inputs">
+                                                    <input id="price-lower" type="number" class="input-text-pract input-range-price input-range-price-left" placeholder="От">
+                                                    <div class="divider">-</div>
+                                                    <input id="price-higher" type="number" class="input-text-pract input-range-price input-range-price-right" placeholder="До">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Мощность</span>
+                                </div>
+                            </div>
+                            <div class="filter-content filter-slider" data-type="slider">
+                                <ul class="sidebar-filter-body-cat-item-subcat filter-slide-content">
+                                    <li class="sidebar-filter-body-cat-item-subcat-item">
+                                        <div class="sidebar-filter-body-cat-item-subcat-item-name prevent-hover">
+                                            <div class="metric-range">
+                                                <div class="metric-range-inputs">
+                                                    <input id="power-lower" type="number" class="input-text-pract input-range-price input-range-price-left" placeholder="От">
+                                                    <div class="divider">-</div>
+                                                    <input id="power-higher" type="number" class="input-text-pract input-range-price input-range-price-right" placeholder="До">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="filter filterProperty sidebar-filter-body-cat-item">
+                            <div class="sidebar-filter-body-cat-item-title extended active">
+                                <div class="sidebar-filter-body-cat-item-title-name extended">
+                                    <span class="sidebar-filter-body-cat-item-title-name-text">Вес</span>
+                                </div>
+                            </div>
+                            <div class="filter-content filter-slider" data-type="slider">
+                                <ul class="sidebar-filter-body-cat-item-subcat filter-slide-content">
+                                    <li class="sidebar-filter-body-cat-item-subcat-item">
+                                        <div class="sidebar-filter-body-cat-item-subcat-item-name prevent-hover">
+                                            <div class="metric-range">
+                                                <div class="metric-range-inputs">
+                                                    <input id="weight-lower" type="number" class="input-text-pract input-range-price input-range-price-left" placeholder="От">
+                                                    <div class="divider">-</div>
+                                                    <input id="weight-higher" type="number" class="input-text-pract input-range-price input-range-price-right" placeholder="До">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <button onclick="filterItems()" class="button" style="padding-left :16PX;width: 50%; margin-left: 45%">
+                        Применить
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div style="margin-bottom : 10px">
+        <div class="sort-query">
+            <div class="sort-query-elems" style="height: 33px">
+                <div class="sort-query-sortby top-sort">
+                    <select id="sortSelect" onchange="change()" class="">
+                        <option class="">Дорогие</option>
+                        <option class="">Дешёвые</option>
+                        <option class="">Новые</option>
+                    </select>
+                </div>
+                <div class="sort-query-text">
+                    Сначала:
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-left: 300px">
+        <div id="categoryProductList">
+            @if (user != null && await UserManager.IsInRoleAsync(user, "Admin"))
+            {
+                <div style="padding: 0px 20px">
+                    <form asp-action="DeleteCategory" asp-controller="Items" asp-route-id="@ViewData["CategoryId"]" style="margin: 0px 50px; float: right">
+                        <input type="submit" value="Удалить категорию" class="btn btn-danger">
+                    </form>
+                    <form method="get" asp-action="CreateItem" asp-controller="Items" asp-route-id="@ViewData["CategoryId"]">
+                        <input type="submit" value="Добавить товар" class="btn btn-danger">
+                    </form>
+
+                </div>
+            }
+            <div class="tiles-product-item-large pad-top-30">
+
+                @*tut foreach *@
+                @foreach (BSUIR.BL.Interfaces.Models.Items.Item item in Model)
+                {
+                    <div class="spec-product js-product-item">
+                        <div class="row">
+                            <div class="_left">
+                                <div class="row">
+                                    <div class="small-12 medium-6 large-6 columns">
+                                        <div class="spec-product-left">
+                                            <section class="carousel-products">
+                                                <div class="carousel catalog-product-block-carousel owl-carousel owl-theme owl-loaded owl-text-select-on">
+                                                    <div class="owl-stage-outer">
+                                                        <div class="owl-stage" style="transform: translate3d(-582px, 0px, 0px); transition: all 0s ease 0s; width: 2328px;">
+                                                            <div class="owl-item active" style="width: 291px; margin-left: 582px;">
+                                                                <a asp-action="Details" asp-controller="Items" asp-route-id="@item.Id" class="product-link" target="_blank">
+                                                                    <div class="spec-product-left-img">
+                                                                        <img src="@item.Link" alt="@item.Name">
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                    <div class="small-12 medium-6 large-6 columns">
+                                        <div class="spec-product-middle">
+                                            <div class="spec-product-middle-wrap-title">
+                                                <h2 class="spec-product-middle-title">
+                                                    <a asp-action="Details" asp-controller="Items" asp-route-id="@item.Id" class="product-link" target="_blank">
+                                                        @item.Name
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <div class="spec-product-middle-characteristics">
+                                                <p><span class="strong">Описание:</span><br>@item.Description</p>
+                                                <p><span class="strong">Производитель:</span>@item.Producer</p>
+                                                <p><span class="strong">Цвет:</span>@item.Color</p>
+                                                <p><span class="strong">Мощность:</span>@item.Power</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="_right">
+                                <div class="spec-product-right">
+                                    <div class="_right-bottom">
+
+                                        <div class="price-block  js-price-block">
+                                            <span class="_price">@item.Price BYN</span>
+                                        </div>
+
+                                        <div class="row flex-buy-buttons-mob-listing">
+                                            <form method="post" asp-controller="Items" asp-action="Index" asp-route-id="@item.Id">
+                                                <input type="submit" class="btn btn-danger" value="Добавить в корзину" />
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function change() {
+        var e = document.getElementById("sortSelect");
+        var text = e.options[e.selectedIndex].text;
+        var form = document.createElement('form');
+        form.action = '/Items/Sort';
+        form.method = 'post';
+        form.innerHTML = '<input name="Sort" value="'+text+'">' +
+            '<input name="id" value="'+ @ViewData["CategoryId"]+'">';
+// перед отправкой формы, её нужно вставить в документ
+        document.body.append(form);
+        form.submit();
+    }
+    var raz = document.getElementById('sortSelect'),
+        types = '',producers='',colors='',countries='',materials='',i = 1, v = '';
+    raz.addEventListener("click", function() {
+        i += 1;
+        if(i & 1) {} else {
+            if(v == this.value) {
+                var e = document.getElementById("sortSelect");
+                var text = e.options[e.selectedIndex].text;
+                var form = document.createElement('form');
+                form.action = '/Items/Sort';
+                form.method = 'post';
+                form.innerHTML = '<input name="Sort" value="'+v+'">' +
+                    '<input name="id" value="'+ @ViewData["CategoryId"]+'">';
+// перед отправкой формы, её нужно вставить в документ
+                document.body.append(form);
+                form.submit();
+            } else {
+                v = this.value;
+            }
+        }
+    });
+    function typeAdded(type) {
+        var checkBox = document.getElementById(type);
+        if (checkBox.checked) {
+            types += type + ',';
+        } else {
+            types = types.replace(type + ',', '');
+        }
+        console.log(types);
+    }
+    function materialAdded(material) {
+        var checkBox = document.getElementById(material);
+        if (checkBox.checked) {
+            materials += material + ',';
+        } else {
+            materials = materials.replace(material + ',', '');
+        }
+        console.log(materials);
+    }
+    function producerAdded(producer) {
+        var checkBox = document.getElementById(producer);
+        if (checkBox.checked) {
+            producers += producer + ',';
+        } else {
+            producers = producers.replace(producer + ',', '');
+        }
+        console.log(producers);
+    }
+    function countryAdded(country) {
+        var checkBox = document.getElementById(country);
+        if (checkBox.checked) {
+            countries += country + ',';
+        } else {
+            countries = countries.replace(country + ',', '');
+        }
+        console.log(countries);
+    }
+    function colorAdded(color) {
+        var checkBox = document.getElementById(color);
+        if (checkBox.checked) {
+            colors += color + ',';
+        } else {
+            colors = colors.replace(color + ',', '');
+        }
+        console.log(colors);
+    }
+    function filterItems() {
+        var e = document.getElementById("sortSelect");
+        var widthLower = document.getElementById("width-lower").value;
+        var widthUpper = document.getElementById("width-higher").value;
+        var priceLower = document.getElementById("price-lower").value;
+        var priceUpper = document.getElementById("price-higher").value;
+        var heightLower = document.getElementById("height-lower").value;
+        var heightUpper = document.getElementById("height-higher").value;
+        var weightLower = document.getElementById("weight-lower").value;
+        var weightUpper = document.getElementById("weight-higher").value;
+        var lengthLower = document.getElementById("length-lower").value;
+        var lengthUpper = document.getElementById("length-higher").value;
+        var powerLower = document.getElementById("power-lower").value;
+        var powerUpper = document.getElementById("power-higher").value;
+        console.log(powerUpper);
+        var form = document.createElement('form');
+        form.action = '/Items/Filter';
+        form.method = 'post';
+        form.innerHTML = '<input name="Filter" value="'+types+'|'+materials+'|'+colors+'|'+producers+'|'+countries+'|'+widthLower+','+widthUpper+'|'+priceLower+','+priceUpper+'|'+heightLower+','+heightUpper+'|'+weightLower+','+weightUpper+'|'+lengthLower+','+lengthUpper+'|'+powerLower+','+powerUpper+'">' +
+            '<input name="id" value="'+ @ViewData["CategoryId"]+'">';
+// перед отправкой формы, её нужно вставить в документ
+        document.body.append(form);
+        form.submit();
+    }
+</script>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+
+@*@foreach (var item in Model) {*@
+
+@*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+

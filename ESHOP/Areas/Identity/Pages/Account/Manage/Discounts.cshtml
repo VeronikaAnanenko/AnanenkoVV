@@ -1,0 +1,62 @@
+﻿@page
+@using Discounts = BSUIR.BL.Interfaces.Models.Discounts.Discounts
+@model BSUIR.Web.Areas.Identity.Pages.Account.Manage.DiscountsModel
+@{
+    IEnumerable<Discounts> discounts = (IEnumerable<Discounts>)ViewData["Discounts"];
+}
+<div class="modal fade" id="exampleModalDiscount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-page-handler="Create" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить скидку</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="form-row">
+                            <label class="form-label" for="select-area">Начало диапазона <sup>*</sup></label>
+                            <input type="text" name="From" />
+                        </div>
+
+                    </div>
+                    <div class="row clearfix">
+                        <div class="form-row">
+                            <label class="form-label" for="select-area">Конец диапазона<sup>*</sup></label>
+                            <input type="text" name="To" />
+                        </div>
+
+                    </div>
+                    <div class="row clearfix">
+                        <div class="form-row">
+                            <label class="form-label" for="select-area">Количество<sup>*</sup></label>
+                            <input type="text" name="Amount" />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Добавить скидку" class="btn btn-danger">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<h1 style="margin-top: 15px" class="h1">Программа скидок</h1>
+@foreach (var discount in discounts)
+{
+    <div class="text-block">
+        <div style="float: right">
+            <form asp-page-handler="Delete" method="post" asp-route-id="@discount.Id">
+                <input class="btn btn-danger" type="submit" value="Удалить">
+            </form>
+        </div>
+        <div style="margin-top: 5px">
+            <span>ОТ @discount.From BYN ДО @discount.To BYN - @discount.Amount%</span>
+        </div>
+    </div>
+
+}
+<button style="margin-top : 15px" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalDiscount">Добавить</button>

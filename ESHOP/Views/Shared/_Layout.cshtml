@@ -1,0 +1,174 @@
+﻿@using BSUIR.BL.Interfaces.Models
+@using BSUIR.BL.Interfaces.Models.Categories
+@using BSUIR.BL.Interfaces.Services
+@using Microsoft.AspNetCore.Identity
+@using BSUIR.DAL.Interfaces.Models
+
+@inject ICategoryService CategoryService;
+@inject Basket _basket;
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SITAIRIS_Kursovoy</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/production.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">О МАГАЗИНЕ</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end text-white" style="margin-left: 15%">E-shop.by</div>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form asp-action="CreateCategory" asp-controller="Items">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Добавить категорию</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" name="Category"/>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" value="Добавить категорию" class="btn btn-danger">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @if (ViewData["Title"] == "Index" || ViewData["Title"] == "Details")
+    {
+        @if (user != null && await UserManager.IsInRoleAsync(user, "Admin"))
+         {
+             <div style="float: right; margin-right: 20%">
+                 <button data-toggle="modal" data-target="#exampleModal" class="btn btn-danger">Добавить категорию</button>
+                        
+             </div>
+         }
+        <form method="get" asp-controller="Items" asp-action="Search">
+            <p>
+                <input class="searchbox-form-text" placeholder="Поиск..." type="search" name="SearchString" value="" autocomplete="off" autocorrect="off" style="width: 25%;margin-left: 35%; display:inline-block">
+                <input class="btn btn-danger" type="submit" value="Поиск">
+             
+            </p>
+        </form>
+    }
+    <div style="float: right; margin-right : 20%; margin-bottom: 20px">
+        <button class="btn btn-danger" onclick="window.location.href='@Url.Action("Index", "Basket")'">Корзина</button>
+        <label class="btn btn-dark" style="display: inline-block">
+            @_basket.Price BYN
+        </label>
+    </div>
+    <div class="page-content page-content-product-card-3">
+        <div class="container">
+            <nav class="menu-goods">
+                <ul>
+                    @foreach ( BSUIR.BL.Interfaces.Models.Categories.Category category in await CategoryService.GetCategoriesAsync< BSUIR.BL.Interfaces.Models.Categories.Category>())
+                    {
+                        <li>
+                            <a asp-action="Index" asp-controller="Items" asp-route-id="@category.Id">@category.Name</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    <div>
+        <p align=center>Copyright (c) Ананенко В.В. 714302 </p>  
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfv0NJSderwudcsnwJGOSG3gRNvnz1oUNI4AkrO9Kr6VpK9uQ/viewform?embedded=true" width="1500" height="500" frameborder="0" marginheight="0" marginwidth="0">Загрузка…</iframe>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/production.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCH83Y2YXXGpnsfUDbXRjH4Q-8saKUqgyc"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @if (ViewData["Title"] == "Home Page" || ViewData["Title"] == "Address")
+    {
+        <script>
+
+            var cities = @Html.Raw(Json.Serialize(Model));
+            //console.log(cities);
+
+
+            $(document).ready(function() {
+                // execute
+                (function initMap() {
+                    // map options
+                    var options = {
+                        zoom: 13,
+                        center: new google.maps.LatLng(53.907946, 27.527199),
+                        mapTypeId: google.maps.MapTypeId.TERRAIN,
+                        mapTypeControl: false
+                    };
+
+                    // init map
+                    var map = new google.maps.Map(document.getElementById('map_canvas'), options);
+
+
+                    for (var i = 0; i < cities.length; i++) {
+                        // init markers
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(cities[i].lat, cities[i].lng),
+                            map: map,
+                            title: cities[i].address
+                        });
+                        console.log(cities[i].lat + ' ' + cities[i].lng);
+                        // process multiple info windows
+                        (function(marker, i) {
+                            // add click event
+                            google.maps.event.addListener(marker,
+                                'mouseenter',
+                                function() {
+                                    infowindow = new google.maps.InfoWindow({
+                                        content: cities[i].address
+                                    });
+                                    infowindow.open(map, marker);
+                                });
+                            if(document.title!='Home Page - SITAIRIS_Kursovoy')
+                            google.maps.event.addListener(marker,
+                                'click',
+                                function() {
+                                    var form = document.createElement('form');
+                                    form.action = '/Basket/ChooseAddress';
+                                    form.method = 'post';
+                                    form.innerHTML = '<input name="id" value="'+cities[i].addressId+'">' +
+                                        '<input name="isdelivery" value="false">';
+// перед отправкой формы, её нужно вставить в документ
+                                    document.body.append(form);
+                                    form.submit();
+                                })
+                        })(marker, i);
+                    }
+                })();
+            });
+
+        </script>
+    }
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,149 @@
+﻿@using BSUIR.DAL.Interfaces.Models
+@using Microsoft.AspNetCore.Identity
+@using Photo = BSUIR.BL.Interfaces.Models.Photos.Photo
+@model BSUIR.BL.Interfaces.Models.Items.Item
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    List<Photo> photos = (List<Photo>)ViewData["Photos"];
+}
+<div class="content-row">
+
+    <form method="post" asp-action="CreateItem" asp-controller="Items">
+        <input type="hidden" asp-for="CategoryId" />
+        <div class="product-card-container">
+            <div class="product-card-container-left">
+
+                <h1 class="product-card-h1">
+                    <label class="form-label">Название:</label>
+                    <input asp-for="Name" type="text" class="form-input" />
+                </h1>
+            </div>
+
+            <div class="product-card-container-right">
+
+                <div style="margin: 0px 33%; margin-top: 32px">
+                    <input value="Сохранить" type="submit" class="btn btn-danger" />
+                </div>
+
+                <div class="product-card-container-right-section simple" style="margin-top: 80px">
+
+
+                    <div class="price-block  js-price-block">
+                        <label class="form-label">Цена:</label>
+                        <span class="_price">
+                            <input asp-for="Price" type="text" class="form-input"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-row catalog-product-card-block-hide">
+            <section id="description">
+                <div class="card-block card-description">
+                    <div class="card-block-inner">
+                        <div class="_block-chars ">
+                            <!--                    <div class="_left">-->
+                            <div class="h3 card-h3">Характеристики </div>
+                            <table class="cleaned">
+                                <tbody>
+                                    <tr><th class="uppercase group-name" colspan="2">Основные</th></tr>
+                                    <tr>
+                                        <th class="property">
+                                            Производитель
+                                        </th>
+                                        <td><input asp-for="Producer" class="form-input" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">Тип</th>
+                                        <td><input asp-for="Type" type="text" class="form-input" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">
+                                            Мощность
+                                        </th>
+                                        <td><input asp-for="Power" type="text" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">Цвет</th>
+                                        <td><input asp-for="Color" type="text" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">
+                                            Длина
+                                        </th>
+                                        <td><input asp-for="Length" type="text" class="form-input" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">
+                                            Ширина
+                                        </th>
+                                        <td><input asp-for="Width" type="text" class="form-input" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">
+                                            Высота
+                                        </th>
+                                        <td class="desc-yes">
+                                            <input asp-for="Height" type="text" class="form-input" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">
+                                            Вес
+                                        </th>
+                                        <td><input asp-for="Weight" type="text" class="form-input" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">Материал</th>
+                                        <td><input asp-for="Material" type="text" class="form-input" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="cleaned">
+                                <tbody>
+                                    <tr><th class="uppercase group-name" colspan="2">Описание</th></tr>
+
+                                    <tr>
+                                        <td class="property"><input asp-for="Description" type="text" class="form-input" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="cleaned">
+                                <tbody>
+                                    <tr>
+                                        <th class="uppercase group-name" colspan="2">Гарантийное обслуживание</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">Гарантия</th>
+                                        <td><input asp-for="Guarantee" type="text" class="form-input" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">Срок службы</th>
+                                        <td><input asp-for="Validity" type="text" class="form-input" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="property">Страна происхождения (производства)</th>
+                                        <td><input asp-for="Country" type="text" class="form-input" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button onclick="window.location.href = '@Url.Action("Index", "Home", new {id = Model.CategoryId})'" class="button" style="padding-left: 50PX; width: 35%; margin-left: 30%; margin-top: 50px">
+                            Вернуться к списку товаров
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </form>
+
+</div>

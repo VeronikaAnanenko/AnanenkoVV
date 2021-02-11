@@ -1,0 +1,8 @@
+E:\Work\SITAIRIS_Kursovoy\BL\bin\Debug\netcoreapp3.0\BL.deps.json
+E:\Work\SITAIRIS_Kursovoy\BL\bin\Debug\netcoreapp3.0\BL.dll
+E:\Work\SITAIRIS_Kursovoy\BL\obj\Debug\netcoreapp3.0\BL.csprojAssemblyReference.cache
+E:\Work\SITAIRIS_Kursovoy\BL\obj\Debug\netcoreapp3.0\BL.AssemblyInfoInputs.cache
+E:\Work\SITAIRIS_Kursovoy\BL\obj\Debug\netcoreapp3.0\BL.AssemblyInfo.cs
+E:\Work\SITAIRIS_Kursovoy\BL\bin\Debug\netcoreapp3.0\BL.pdb
+E:\Work\SITAIRIS_Kursovoy\BL\obj\Debug\netcoreapp3.0\BL.dll
+E:\Work\SITAIRIS_Kursovoy\BL\obj\Debug\netcoreapp3.0\BL.pdb

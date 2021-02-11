@@ -1,0 +1,320 @@
+﻿@page
+@inject IAddressService AddressService
+@inject IDeliveryAddressService DeliveryAddressService
+@using BSUIR.BL.Interfaces.Services
+@using Order = BSUIR.BL.Interfaces.Models.Orders.Order
+@using Address = BSUIR.BL.Interfaces.Models.Addresses.Address
+@using DeliveryAddress = BSUIR.BL.Interfaces.Models.DeliveryAddresses.DeliveryAddress
+@using Item = BSUIR.BL.Interfaces.Models.Items.Item
+@model BSUIR.Web.Areas.Identity.Pages.Account.Manage.OrdersModel
+@{
+    BSUIR.BL.Interfaces.Models.Customers.Customer customer = (BSUIR.BL.Interfaces.Models.Customers.Customer)ViewData["Customer"];
+}
+<div class="page-content page-cabinet-personal">
+    <div class="container clearfix">
+        <div class="page-title">
+            <h1 class="h1">Мои заказы</h1>
+        </div>
+        <div class="content-row">
+            <div class="sidebar">
+
+                <ul class="cabinet-nav">
+                    <li data-code="personal" class=""><a href="/Identity/Account/Manage/Index">Личные данные</a></li>
+                    <li data-code="orders" class="active"><a href="/Identity/Account/Manage/Orders">Мои заказы</a></li>
+                    <li data-code="delivery" class=""><a href="/Identity/Account/Manage/Addresses">Адрес доставки</a></li>
+                    <li data-code="logout" class=""><a href="/Identity/Account/Logout">Выход</a></li>
+
+
+                </ul>
+            </div>
+            <div style="margin-left: 300px">
+                <div class="panel-simple offset-bottom-40">
+                    <div style="padding-left: 35px; padding-top: 25px;">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label onclick="document.getElementById('activeOrders').style.display = 'block';
+document.getElementById('historyOrders').style.display = 'none';" class="btn btn-danger">
+                                <input type="radio" name="options" value="М" id="option1" autocomplete="off" checked=""> Активные
+                            </label>
+                            <label onclick="document.getElementById('activeOrders').style.display = 'none';
+document.getElementById('historyOrders').style.display = 'block';" class="btn btn-dark active">
+                                <input type="radio" name="options" value="Ж" id="option2" autocomplete="off"> История
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="activeOrders" class="panel-simple-middle">
+                        @foreach (OutputOrders order in (List<OutputOrders>)ViewData["Orders"])
+                        {
+                            if (order.Order.Status != "Выполнен")
+                            {
+
+                                <div style="padding: 20px; background-color: rgb(245, 245, 245);">
+                                    <form style="float : right;" asp-page-handler="Update" asp-route-id="@order.Order.Id" method="post">
+                                        <input type="submit" class="btn btn-danger" value="Доставлено" />
+                                    </form>
+                                    <div style="float: right; margin: 10px; margin-top: 0px">
+                                        <form asp-page-handler="Delete" asp-route-id="@order.Order.Id" method="post">
+                                            <input class="btn btn-danger" type="submit" value="Отменить"/>
+                                        </form>
+
+                                    </div>
+                                    <h2>Заказ №@order.Order.Id</h2>
+
+                                    <div class="desktop-table shopping-cart__container">
+                                        <div class="desktop-table__cell shopping-cart__container _contact-data" style="width: 50%; background-color: rgb(245, 245, 245);">
+                                            <div>
+                                                <h4 class="form-title">Ваши контактные данные</h4>
+                                                <div class="row form-group">
+                                                    <label for="name" class="medium-4 large-6 column control-label">ФИО*</label>
+                                                    <div class="medium-4 large-6 column cart-confirm-form-left-block">
+                                                        <div for="name" class="medium-4 large-7 column control-label">@customer.Firstname @customer.Secondname @customer.Lastname</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label for="mobile" class="medium-7 large-6 column control-label">Номер телефона*</label>
+                                                    <div class="medium-8 large-6 column cart-confirm-form-left-block">
+                                                        <!----> <!----> <!---->
+                                                        <label for="mobile" class="medium-4 large-6 column control-label">@customer.MobileNumber</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label for="email" class="medium-4 large-6 column control-label">Электронная почта <!----></label>
+                                                    <div class="medium-8 large-6 column cart-confirm-form-left-block">
+                                                        <label for="mobile" class="medium-4 large-6 column control-label">@ViewData["Email"]</label>
+                                                    </div>
+                                                    <!---->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="comment" class="control-label" style="">Комментарий к заказу</label>
+                                                <div class="medium-7 large-12 column">
+                                                    <label rows="5" maxlength="1000" id="comment" name="comment" wrap="soft" class="input-group-field" style="margin-top: 0px; margin-bottom: 10px; height: 127px;">@order.Order.Comment</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="float: right; margin-top: 125px; background-color: rgb(245, 245, 245);">
+                                        <div class="h1" style="padding: 25px; padding-bottom: 0px; margin-top: 100px; float: right;">Итого: @order.Order.Amount BYN</div>
+                                    </div>
+                                    <div class="desktop-table__cell shopping-cart__container _shop">
+                                        <div class="one-shop-card">
+                                            <div class="one-shop-card-body clearfix">
+                                                @if (!string.IsNullOrEmpty(order.DeliveryAddress.City))
+                                                {
+                                                    <div class="one-shop-card-body-info-item one-shop-card-body-info-item-path" style="margin-top: 20px">Забрать в магазине</div>
+                                                    <div class="_top">
+                                                        <div class="_block1">
+                                                            <div class="one-shop-card-body-info-item one-shop-card-body-info-item-path" style="padding-right: 50px">
+                                                                <div class="one-shop-card-body-info-item-title">Населенный пункт <a>@order.DeliveryAddress.City</a></div>
+                                                                <div class="one-shop-card-body-info-item-title">Адрес магазина <a>@order.DeliveryAddress.Street, @order.DeliveryAddress.House</a></div>
+                                                            </div>
+                                                            <div class="one-shop-card-body-info-item one-shop-card-body-info-item-shed">
+                                                                <h4 class="one-shop-card-body-info-item-title _schedule">График работы</h4>
+                                                                <div class="form-help">@order.DeliveryAddress.WorkingHours</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="one-shop-card-body-info-item one-shop-card-body-info-item-path" style="margin-top: 20px">Доставка</div>
+                                                    <div class="_top">
+                                                        <div class="_block1">
+                                                            <div class="one-shop-card-body-info-item one-shop-card-body-info-item-path" style="padding-right: 50px">
+                                                                <div class="one-shop-card-body-info-item-title">Населенный пункт <a>@order.Address.City</a></div>
+                                                                <div class="one-shop-card-body-info-item-title">Адрес доставки <a>@order.Address.Street, @order.Address.House</a></div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="_block2">
+                                                    <div class="hor-line"></div>
+                                                    <div class="row clearfix" style="margin-left: 40px" row="">
+                                                        <label for="desired_delivery_date" class="control-label column">Желаемая дата получения</label>
+                                                        <div class="medium-7 large-7 column">
+                                                            <div class="form-date">
+                                                                <label id="desired_delivery_date" name="delivery_date" type="date" class="form-input">
+                                                                    @order.Order.Date.Day @order.Order.Date.Month @order.Order.Date.Year
+                                                                </label>
+                                                                <div class="form-date-icon"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div> <!----> <!---->
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 50px">
+                                    <div class="shopping-cart__step-title">Выбранные товары</div>
+                                    <section class="carousel-products">
+                                        <div class="selected-products carousel owl-carousel owl-theme owl-loaded owl-text-select-on">
+                                            <div class="owl-stage-outer">
+                                                <div class="owl-stage">
+                                                    <div>
+                                                        @foreach (Item item in order.Items)
+                                                        {
+                                                            <div class="product-item">
+                                                                <div class="product-item-head">
+                                                                    <div class="product-item-head-top">
+                                                                        <div class="product-item-head-img-wrapper"><img src="@item.Link"></div>
+                                                                    </div>
+                                                                    <div class="product-item-head-title"><a  asp-action="Details" asp-controller="Items" asp-route-id="@item.Id"class="product-item-head-title-link" style="overflow-wrap: break-word;">@item.Name</a></div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </section>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div id="historyOrders" style="display: none" class="panel-simple-middle">
+                        @foreach (OutputOrders order in (List<OutputOrders>)ViewData["Orders"])
+                        {
+                            if (order.Order.Status == "Выполнен")
+                            {
+
+                                <div style="padding: 20px; background-color: rgb(245, 245, 245);">
+                                    <div style="float: right; margin: 10px; margin-top: 0px">
+                                        <form asp-page-handler="Delete" asp-route-id="@order.Order.Id" method="post">
+                                            <input type="submit" class="btn btn-danger" value="Отменить" />
+                                        </form>
+                                    </div>
+                                    <h2>Заказ №@order.Order.Id - Выполнен</h2>
+
+                                    <div class="desktop-table shopping-cart__container">
+                                        <div class="desktop-table__cell shopping-cart__container _contact-data" style="width: 50%; background-color: rgb(245, 245, 245);">
+                                            <div>
+                                                <h4 class="form-title">Ваши контактные данные</h4>
+                                                <div class="row form-group">
+                                                    <label for="name" class="medium-4 large-6 column control-label">ФИО*</label>
+                                                    <div class="medium-4 large-6 column cart-confirm-form-left-block">
+                                                        <div for="name" class="medium-4 large-7 column control-label">@customer.Firstname @customer.Secondname @customer.Lastname</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label for="mobile" class="medium-7 large-6 column control-label">Номер телефона*</label>
+                                                    <div class="medium-8 large-6 column cart-confirm-form-left-block">
+                                                        <!----> <!----> <!---->
+                                                        <label for="mobile" class="medium-4 large-6 column control-label">@customer.MobileNumber</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label for="email" class="medium-4 large-6 column control-label">Электронная почта <!----></label>
+                                                    <div class="medium-8 large-6 column cart-confirm-form-left-block">
+                                                        <label for="mobile" class="medium-4 large-6 column control-label">@ViewData["Email"]</label>
+                                                    </div>
+                                                    <!---->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="comment" class="control-label" style="">Комментарий к заказу</label>
+                                                <div class="medium-7 large-12 column">
+                                                    <label rows="5" maxlength="1000" id="comment" name="comment" wrap="soft" class="input-group-field" style="margin-top: 0px; margin-bottom: 10px; height: 127px;">@order.Order.Comment</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="float: right; margin-top: 125px; background-color: rgb(245, 245, 245);">
+                                        <div class="h1" style="padding: 25px; padding-bottom: 0px; margin-top: 100px; float: right;">Итого: @order.Order.Amount BYN</div>
+                                    </div>
+                                    <div class="desktop-table__cell shopping-cart__container _shop">
+                                        <div class="one-shop-card">
+                                            <div class="one-shop-card-body clearfix">
+                                                @if (!string.IsNullOrEmpty(order.DeliveryAddress.City))
+                                                {
+                                                    <div class="one-shop-card-body-info-item one-shop-card-body-info-item-path" style="margin-top: 20px">Забрать в магазине</div>
+                                                    <div class="_top">
+                                                        <div class="_block1">
+                                                            <div class="one-shop-card-body-info-item one-shop-card-body-info-item-path" style="padding-right: 50px">
+                                                                <div class="one-shop-card-body-info-item-title">Населенный пункт <a>@order.DeliveryAddress.City</a></div>
+                                                                <div class="one-shop-card-body-info-item-title">Адрес магазина <a>@order.DeliveryAddress.Street, @order.DeliveryAddress.House</a></div>
+                                                            </div>
+                                                            <div class="one-shop-card-body-info-item one-shop-card-body-info-item-shed">
+                                                                <h4 class="one-shop-card-body-info-item-title _schedule">График работы</h4>
+                                                                <div class="form-help">@order.DeliveryAddress.WorkingHours</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="one-shop-card-body-info-item one-shop-card-body-info-item-path" style="margin-top: 20px">Доставка</div>
+                                                    <div class="_top">
+                                                        <div class="_block1">
+                                                            <div class="one-shop-card-body-info-item one-shop-card-body-info-item-path" style="padding-right: 50px">
+                                                                <div class="one-shop-card-body-info-item-title">Населенный пункт <a>@order.Address.City</a></div>
+                                                                <div class="one-shop-card-body-info-item-title">Адрес доставки <a>@order.Address.Street, @order.Address.House</a></div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="_block2">
+                                                    <div class="hor-line"></div>
+                                                    <div class="row clearfix" style="margin-left: 40px" row="">
+                                                        <label for="desired_delivery_date" class="control-label column">Желаемая дата получения</label>
+                                                        <div class="medium-7 large-7 column">
+                                                            <div class="form-date">
+                                                                <label id="desired_delivery_date" name="delivery_date" type="date" class="form-input">
+                                                                    @order.Order.Date.Day @order.Order.Date.Month @order.Order.Date.Year
+                                                                </label>
+                                                                <div class="form-date-icon"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div> <!----> <!---->
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="shopping-cart__step-title">Выбранные товары</div>
+                                    <section class="carousel-products">
+                                        <div class="selected-products carousel owl-carousel owl-theme owl-loaded owl-text-select-on">
+                                            <div class="owl-stage-outer">
+                                                <div class="owl-stage" >
+                                                    <div>
+                                                        @foreach (Item item in order.Items)
+                                                        {
+                                                            <div class="product-item">
+                                                                <div class="product-item-head">
+                                                                    <div class="product-item-head-top">
+                                                                        <div class="product-item-head-img-wrapper"><img src="@item.Link"></div>
+                                                                    </div>
+                                                                    <div class="product-item-head-title"><a asp-action="Details" asp-controller="Items" asp-route-id="@item.Id" class="product-item-head-title-link" style="overflow-wrap: break-word;">@item.Name</a></div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </section>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

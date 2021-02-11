@@ -1,0 +1,64 @@
+﻿@using BSUIR.BL.Interfaces.Models
+@inject Basket _basket
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="shopping-cart" style="margin-top: 10px">
+    <h3 class="shopping-cart__title">В вашей корзине @_basket.Items.Count() товара</h3><div id="stepCartFirst" class="shopping-cart__block _available cart-products">
+        <div class="cart-products__row _head">
+            <div class="cart-products__cell _thumb"></div>
+            <div class="cart-products__cell _title">Товар</div>
+            <div class="cart-products__cell _price">Итого</div>
+            <div class="cart-products__cell _price-summary"></div>
+        </div>
+        @foreach (var item in _basket.Items)
+        {
+            <div class="cart-products__row cart-products__row_ga">
+                <div class="cart-products__wrapper" >
+                    <div class="cart-products__cell _thumb">
+                        <a asp-action="Details" asp-controller="Items" asp-route-id="@item.Id">
+                            <img class="cart-products__thumb" style="height: 150px; width: 150px" title="@item.Name" src="@item.Link">
+                        </a>
+                    </div>
+                    <div class="cart-products__cell _title">
+                        <a href="@item.Link">
+                            <h5 class="cart-products__title">@item.Name</h5>
+                        </a>
+                    </div>
+                    <div class="cart-products__cell _price">
+                        <div class="cart-products__price">
+                            <span>@item.Price BYN</span>
+                        </div>
+                    </div>
+                    <div class="cart-products__cell _price-summary">
+                        <form form="post" asp-action="RemoveItem" asp-controller="Basket" asp-route-id="@item.Id">
+                            <input class="btn btn-danger" value="Удалить из корзины"/>
+                            </form>
+                    </div><!---->
+                </div>
+
+            </div>
+        }
+            <div class="desktop-table__cell shopping-cart__container js-summary" style="padding: 0px; vertical-align: bottom;">
+                <table class="shopping-cart__summary">
+                    <tbody>
+                        <tr class="_total">
+                            <td class="_align"></td>
+                            <td colspan="2">
+                                <span>Итого: </span><span class="shopping-cart__summary-total"><span>@_basket.Price</span></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="_normal">
+
+                    <button onclick="window.location.href='@Url.Action("Address", "Basket")'" class="button expanded large" style="padding-left: 0px; padding-right: 0px; margin: 0px;">
+                        Оформить заказ
+                    </button>
+
+                </div>
+            </div>
+    </div>
+</div>

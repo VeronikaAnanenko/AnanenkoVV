@@ -1,0 +1,15 @@
+E:\Work\SITAIRIS_Kursovoy\Configuration\bin\Debug\netcoreapp3.0\Configuration.deps.json
+E:\Work\SITAIRIS_Kursovoy\Configuration\bin\Debug\netcoreapp3.0\Configuration.dll
+E:\Work\SITAIRIS_Kursovoy\Configuration\obj\Debug\netcoreapp3.0\Configuration.csprojAssemblyReference.cache
+E:\Work\SITAIRIS_Kursovoy\Configuration\obj\Debug\netcoreapp3.0\Configuration.AssemblyInfoInputs.cache
+E:\Work\SITAIRIS_Kursovoy\Configuration\obj\Debug\netcoreapp3.0\Configuration.AssemblyInfo.cs
+E:\Work\SITAIRIS_Kursovoy\Configuration\bin\Debug\netcoreapp3.0\Configuration.pdb
+E:\Work\SITAIRIS_Kursovoy\Configuration\bin\Debug\netcoreapp3.0\DAL.dll
+E:\Work\SITAIRIS_Kursovoy\Configuration\bin\Debug\netcoreapp3.0\DAL.Interfaces.dll
+E:\Work\SITAIRIS_Kursovoy\Configuration\bin\Debug\netcoreapp3.0\DAL.ServicesConfiguration.dll
+E:\Work\SITAIRIS_Kursovoy\Configuration\bin\Debug\netcoreapp3.0\DAL.ServicesConfiguration.pdb
+E:\Work\SITAIRIS_Kursovoy\Configuration\bin\Debug\netcoreapp3.0\DAL.pdb
+E:\Work\SITAIRIS_Kursovoy\Configuration\bin\Debug\netcoreapp3.0\DAL.Interfaces.pdb
+E:\Work\SITAIRIS_Kursovoy\Configuration\obj\Debug\netcoreapp3.0\Configuration.csproj.CopyComplete
+E:\Work\SITAIRIS_Kursovoy\Configuration\obj\Debug\netcoreapp3.0\Configuration.dll
+E:\Work\SITAIRIS_Kursovoy\Configuration\obj\Debug\netcoreapp3.0\Configuration.pdb

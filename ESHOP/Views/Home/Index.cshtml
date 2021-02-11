@@ -1,0 +1,63 @@
+﻿@using BSUIR.BL.Interfaces.Models
+@using BSUIR.BL.Interfaces.Models.DeliveryAddresses
+
+@model List<BSUIR.BL.Interfaces.Models.Marker>;
+@{
+    ViewData["Title"] = "Home Page";
+}
+<h1 style="margin-top: 15px" class="h1">О компании</h1>
+<div class="banner-company">
+    <img width="890" src="https://5element.by/upload/images/company/main-1.jpg" height="285"><br>
+</div>
+<div class="text-block">
+    <div class="text-block">
+        «E-shop» – это динамичная, эффективная и успешная национальная компания, предлагающая наилучшие решения для покупки электроники и бытовой техники для всех жителей Беларуси.<br>
+        <br>
+        <ul>
+            <li>более 3 000 специалистов<br>
+            </li>
+            <li>60 000 кв.м. торговых площадей </li>
+            <li>65 &nbsp;розничных магазина</li>
+            <li>34 города присутствия сети </li>
+            <li>более 30 000 звонков в колл-центр ежемесячно<br>
+            </li>
+            <li>более 80 партнеров</li>
+            <li>более 1 500 000 участников Клуба покупателей «E-shop»</li>
+            <li>Более 20 000 наименований товаров, представленных в сети магазинов, а также на сайте E-shop</li>
+            <li>Более 2000 акций ежегодно</li>
+            <li>Более 100 товаров по суперценам каждый день</li>
+            <li>Тысячи товаров в рассрочку без переплат</li>
+            <li>Сервисная поддержка и беспроблемный возврат<br>
+            </li>
+        </ul>
+        <br>
+        По исследованию международной компании в <b>«E-shop» </b>приобретается&nbsp;каждый второй телевизор, пылесос, фотоаппарат, каждая третья стиральная машина, каждый четвертый холодильник.
+    </div>
+</div>
+<div class="text-center" style="height:400px;" id="map_canvas">
+
+</div>
+<div class="card-delivery-content clearfix">
+    <div>
+        <div id="delivery-shop" class="card-delivery-shop">
+            <div id="delivery-shop-list" class="card-delivery-shop-list">
+                <table class="cleaned shops-list">
+                    <tbody>
+                    <tr>
+                        <th width="70%">Адрес магазина</th>
+                        <th width="30%" class="text-left">Режим работы магазина</th>
+                        <th></th>
+                    </tr>
+                    @foreach (DeliveryAddress address in (IEnumerable<DeliveryAddress>) ViewData["DeliveryAddresses"])
+                    {
+                        <tr>
+                            <td><a target="_blank">@address.City, @address.Street, @address.House</a></td>
+                            <td class="text-left">@address.WorkingHours</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div> <!---->
+        </div> <!---->
+    </div> <!---->
+</div>

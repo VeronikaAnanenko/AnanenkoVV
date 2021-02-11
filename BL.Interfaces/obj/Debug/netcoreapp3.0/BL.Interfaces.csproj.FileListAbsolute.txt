@@ -1,0 +1,17 @@
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\BL.Interfaces.deps.json
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\BL.Interfaces.dll
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\obj\Debug\netcoreapp3.0\BL.Interfaces.csprojAssemblyReference.cache
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\obj\Debug\netcoreapp3.0\BL.Interfaces.AssemblyInfoInputs.cache
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\obj\Debug\netcoreapp3.0\BL.Interfaces.AssemblyInfo.cs
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\BL.Interfaces.pdb
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\obj\Debug\netcoreapp3.0\BL.Interfaces.dll
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\obj\Debug\netcoreapp3.0\BL.Interfaces.pdb
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Identity.Stores.dll
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Identity.Core.dll
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Options.dll
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Logging.Abstractions.dll
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Identity.Stores.xml
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Identity.Core.xml
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Options.xml
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Logging.Abstractions.xml
+E:\Work\SITAIRIS_Kursovoy\BL.Interfaces\obj\Debug\netcoreapp3.0\BL.Interfaces.csproj.CopyComplete
